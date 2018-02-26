@@ -1,5 +1,5 @@
 (ns nmf.core
-  (:use [nmf nmf]
+  (:use [nmf nmf matrix]
         [clojure.math numeric-tower])
   (:gen-class))
 

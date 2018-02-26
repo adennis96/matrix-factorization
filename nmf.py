@@ -55,8 +55,6 @@ def nmf(X, k, max_iter=5000):
         wn = (X * h.T)
         wd = (w * h * h.T)
         w = np.matrix(np.array(w) * np.array(wn) / np.array(wd))
-
-        # h = np.matrix(np.array(h) * np.array(hn) / np.array(hd))
     return w, h
 
 
