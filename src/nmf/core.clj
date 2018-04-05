@@ -1,10 +1,12 @@
 (ns nmf.core
-  (:use [nmf nmf matrix]
+  (:use [nmf nmf] ; matrix]
+        [uncomplicate.neanderthal core native]
+        [uncomplicate.fluokitten core]
         [clojure.math numeric-tower])
   (:gen-class))
 
 (def X
-  [[2 0 1 2 0] [0 2 1 0 1] [1 0 0 2 2] [2 1 0 0 1]])
+  (dge 4 5 (flatten [[2 0 1 2 0] [0 2 1 0 1] [1 0 0 2 2] [2 1 0 0 1]]) {:layout :row}))
 
 (defn -main
   []
@@ -12,5 +14,5 @@
     (println "X: " X)
     (println "W: " W)
     (println "H: " H)
-    (println "WH: " (matr-mult W H))
-    (println "WH(rounded): " (matr-map round (matr-mult W H)))))
+    (println "WH: " (mm W H))
+    (println "WH(rounded): " (fmap (fn ^double [^double x] (round x)) (mm W H)))))
