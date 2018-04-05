@@ -18,16 +18,22 @@
   [V k max-iter]
   (loop [W (rand-matr (mrows V) k 1)
          H (rand-matr k (ncols V) 1)
-         iter max-iter]
-    (println iter " " (diff-cost V (mm W H))) ; DEBUG
+         iter max-iter
+         start-time (System/currentTimeMillis)]
+    (printf "step %2d; cost: %.4f\n" iter (diff-cost V (mm W H))) ; DEBUG
     (if (or (<= iter 0) (= (diff-cost V (mm W H)) 0))
       [W H]
       (let [new-H (fmap (fn ^double [^double x ^double y] (* x y)) H
-                    (fmap (fn ^double [^double x ^double y] (/ x y)) (mm (trans W) V)
-                            (mm (trans W) W H)))]
+                        (fmap (fn ^double [^double x ^double y] (/ x y))
+                              (mm (trans W) V)
+                              (mm (trans W) W H)))
+            new-W (fmap (fn ^double [^double x ^double y] (* x y)) W
+                        (fmap (fn ^double [^double x ^double y] (/ x y))
+                              (mm V (trans new-H))
+                              (mm W new-H (trans new-H))))]
+        (printf "time: %.4f sec; " (float (/ (- (System/currentTimeMillis) start-time) 1000))) ; DEBUG
         (recur
-          (fmap (fn ^double [^double x ^double y] (* x y)) W
-            (fmap (fn ^double [^double x ^double y] (/ x y)) (mm V (trans new-H))
-                    (mm W new-H (trans new-H))))
+          new-W
           new-H
-          (- iter 1))))))
+          (- iter 1)
+          (System/currentTimeMillis))))))
