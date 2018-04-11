@@ -20,7 +20,7 @@
          H (rand-matr k (ncols V) 1)
          iter max-iter
          start-time (System/currentTimeMillis)]
-    (printf "step %2d; cost: %.4f\n" iter (diff-cost V (mm W H))) ; DEBUG
+    (printf "step %2d; cost: %.4f\n" iter (diff-cost V (mm W H))) (flush) ; DEBUG
     (if (or (<= iter 0) (= (diff-cost V (mm W H)) 0))
       [W H]
       (let [new-H (fmap (fn ^double [^double x ^double y] (* x y)) H

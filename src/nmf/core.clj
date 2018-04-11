@@ -15,7 +15,7 @@
         max-iter (Integer/parseInt (nth args 2))
         [W H] (nmf V k max-iter)]
     (println "V: " V)
-    ; (println "W: " W)
-    ; (println "H: " H)
-    ; (println "WH: " (mm W H))
+    (println "W: " W)
+    (println "H: " H)
+    (println "WH: " (mm W H))
     (println "WH(rounded): " (fmap (fn ^double [^double x] (round x)) (mm W H)))))
